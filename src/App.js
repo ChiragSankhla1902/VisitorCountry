@@ -1,24 +1,40 @@
-import logo from './logo.svg';
+import React,{useState,useEffect} from 'react';
 import './App.css';
+import axios from 'axios';
+
+
 
 function App() {
+
+  const[location,setlocation]=useState('')
+
+  const getinfo=async()=>{
+    await axios.get(`https://api.geoapify.com/v1/ipinfo?&apiKey=${process.env.REACT_APP_API}`)
+    .then(function (response) {
+      console.log(response?.data)
+      setlocation(response?.data?.country?.name)
+  })
+  }
+
+
+  useEffect(() => {
+    getinfo()
+  }, [])
+  // console.log( navigator.geolocation)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="container">
+        <h4>Country</h4>
+        <input
+         className="App"
+          type="text"
+          value={location}
+          disabled={true}
+        />
+
+      </div>
+    </>
   );
 }
 
