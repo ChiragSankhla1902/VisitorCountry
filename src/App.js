@@ -7,12 +7,13 @@ import axios from 'axios';
 function App() {
 
   const[location,setlocation]=useState('')
+  const [city,setcity]=useState('')
 
   const getinfo=async()=>{
     await axios.get(`https://api.geoapify.com/v1/ipinfo?&apiKey=${process.env.REACT_APP_API}`)
     .then(function (response) {
-      console.log(response?.data)
       setlocation(response?.data?.country?.name)
+      setcity(response?.data?.city?.name)
   })
   }
 
@@ -29,7 +30,7 @@ function App() {
         <input
          className="App"
           type="text"
-          value={location}
+          value={ `${location}\t${city}` }
           disabled={true}
         />
 
